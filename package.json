@@ -10,7 +10,10 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\"",
-    "format:write": "prettier --write \"**/*.{ts,tsx,md,json}\""
+    "format:write": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "@datadog/browser-logs": "^5.23.3",
@@ -18,6 +21,7 @@
     "@livekit/components-styles": "1.1.6",
     "@livekit/krisp-noise-filter": "0.3.0",
     "@livekit/track-processors": "^0.5.4",
+    "@opennextjs/cloudflare": "^1.0.4",
     "@payloadcms/db-postgres": "^3.38.0",
     "@payloadcms/next": "^3.38.0",
     "@payloadcms/richtext-lexical": "^3.38.0",
@@ -48,7 +52,8 @@
     "eslint-config-next": "15.3.2",
     "source-map-loader": "^5.0.0",
     "tw-animate-css": "^1.3.0",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "wrangler": "^4.16.1"
   },
   "engines": {
     "node": ">=18"

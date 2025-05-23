@@ -21,14 +21,26 @@ export function VideoConferenceClientImpl(props: {
   token: string;
   codec: VideoCodec | undefined;
 }) {
-  const worker =
-    typeof window !== 'undefined' &&
-    new Worker(new URL('livekit-client/e2ee-worker', import.meta.url));
-  const keyProvider = new ExternalE2EEKeyProvider();
+  const worker = useMemo(
+    () =>
+      typeof window !== 'undefined'
+        ? new Worker(new URL('livekit-client/e2ee-worker', import.meta.url))
+        : null,
+    [],
+  );
 
-  const e2eePassphrase =
-    typeof window !== 'undefined' ? decodePassphrase(window.location.hash.substring(1)) : undefined;
+  const keyProvider = useMemo(() => new ExternalE2EEKeyProvider(), []);
+
+  const e2eePassphrase = useMemo(
+    () =>
+      typeof window !== 'undefined'
+        ? decodePassphrase(window.location.hash.substring(1))
+        : undefined,
+    [],
+  );
+
   const e2eeEnabled = !!(e2eePassphrase && worker);
+
   const roomOptions = useMemo((): RoomOptions => {
     return {
       publishDefaults: {
@@ -45,19 +57,21 @@ export function VideoConferenceClientImpl(props: {
           }
         : undefined,
     };
-  }, []);
+  }, [e2eeEnabled, keyProvider, worker, props.codec]);
 
-  const room = useMemo(() => new Room(roomOptions), []);
-  if (e2eeEnabled) {
-    keyProvider.setKey(e2eePassphrase);
-    room.setE2EEEnabled(true);
-  }
+  const room = useMemo(() => new Room(roomOptions), [roomOptions]);
+  useEffect(() => {
+    if (e2eeEnabled) {
+      keyProvider.setKey(e2eePassphrase);
+      room.setE2EEEnabled(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [e2eeEnabled, keyProvider, e2eePassphrase, room]);
   const connectOptions = useMemo((): RoomConnectOptions => {
     return {
       autoSubscribe: true,
     };
   }, []);
-
   useEffect(() => {
     room.connect(props.liveKitUrl, props.token, connectOptions).catch((error) => {
       console.error(error);

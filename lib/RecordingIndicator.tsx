@@ -22,7 +22,11 @@ export function RecordingIndicator() {
         });
       }
     }
-  }, [isRecording]);
+  }, [isRecording, wasRecording]);
+
+  React.useEffect(() => {
+    // ... existing code
+  }, [wasRecording]);
 
   return (
     <div

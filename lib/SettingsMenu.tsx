@@ -11,6 +11,7 @@ import {
 import styles from '../styles/SettingsMenu.module.css';
 import { CameraSettings } from './CameraSettings';
 import { MicrophoneSettings } from './MicrophoneSettings';
+import { useMemo } from 'react';
 /**
  * @alpha
  */
@@ -22,14 +23,16 @@ export interface SettingsMenuProps extends React.HTMLAttributes<HTMLDivElement> 
 export function SettingsMenu(props: SettingsMenuProps) {
   const layoutContext = useMaybeLayoutContext();
   const room = useRoomContext();
-  const recordingEndpoint = process.env.NEXT_PUBLIC_LK_RECORD_ENDPOINT;
+  const recordingEndpoint = useMemo(() => {
+    return process.env.NEXT_PUBLIC_LK_RECORD_ENDPOINT;
+  }, []);
 
   const settings = React.useMemo(() => {
     return {
       media: { camera: true, microphone: true, label: 'Media Devices', speaker: true },
       recording: recordingEndpoint ? { label: 'Recording' } : undefined,
     };
-  }, []);
+  }, [recordingEndpoint]);
 
   const tabs = React.useMemo(
     () => Object.keys(settings).filter((t) => t !== undefined) as Array<keyof typeof settings>,

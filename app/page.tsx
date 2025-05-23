@@ -172,7 +172,7 @@ export default function Page() {
             href="/"
             className="text-foreground text-2xl font-bold hover:text-accent-foreground transition-colors"
           >
-            Teach Together
+            Teach Teach
           </Link>
           <ul className="flex flex-wrap gap-4 text-accent-foreground">
             <li>
@@ -198,10 +198,12 @@ export default function Page() {
       </header>
       <main className="bg-foreground min-h-screen pt-20 overflow-x-hidden">
         <div className="relative h-[70vh] w-full">
-          <img
+          <Image
             className="absolute inset-0 w-full h-full object-cover"
             src="/images/tt-header.avif"
             alt="girl looking at the computer on video call"
+            width={1920}
+            height={1080}
           />
           <div className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center">
             <div className="container mx-auto px-4 md:px-12">
@@ -226,7 +228,7 @@ export default function Page() {
               At Teach Together, we believe in empowering educators through seamless collaboration.
               Our mission is to create a supportive environment where teachers can connect, share
               resources, and learn from each other, ultimately enhancing the educational experience
-              for students worldwide. Through our platform, we're building bridges between
+              for students worldwide. Through our platform, we&apos;re building bridges between
               classrooms and making quality education more accessible for all.
             </p>
           </div>

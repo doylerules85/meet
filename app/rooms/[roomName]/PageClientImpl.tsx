@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { decodePassphrase } from '@/lib/client-utils';
 import { DebugMode } from '@/lib/Debug';
 import { KeyboardShortcuts } from '@/lib/KeyboardShortcuts';
@@ -50,18 +50,21 @@ export function PageClientImpl(props: {
     undefined,
   );
 
-  const handlePreJoinSubmit = React.useCallback(async (values: LocalUserChoices) => {
-    setPreJoinChoices(values);
-    const url = new URL(CONN_DETAILS_ENDPOINT, window.location.origin);
-    url.searchParams.append('roomName', props.roomName);
-    url.searchParams.append('participantName', values.username);
-    if (props.region) {
-      url.searchParams.append('region', props.region);
-    }
-    const connectionDetailsResp = await fetch(url.toString());
-    const connectionDetailsData = await connectionDetailsResp.json();
-    setConnectionDetails(connectionDetailsData);
-  }, []);
+  const handlePreJoinSubmit = React.useCallback(
+    async (values: LocalUserChoices) => {
+      setPreJoinChoices(values);
+      const url = new URL(CONN_DETAILS_ENDPOINT, window.location.origin);
+      url.searchParams.append('roomName', props.roomName);
+      url.searchParams.append('participantName', values.username);
+      if (props.region) {
+        url.searchParams.append('region', props.region);
+      }
+      const connectionDetailsResp = await fetch(url.toString());
+      const connectionDetailsData = await connectionDetailsResp.json();
+      setConnectionDetails(connectionDetailsData);
+    },
+    [props.region, props.roomName],
+  );
   const handlePreJoinError = React.useCallback((e: any) => console.error(e), []);
 
   return (
@@ -93,15 +96,21 @@ function VideoConferenceComponent(props: {
     codec: VideoCodec;
   };
 }) {
-  const e2eePassphrase =
-    typeof window !== 'undefined' && decodePassphrase(location.hash.substring(1));
+  const e2eePassphrase = React.useMemo(
+    () => typeof window !== 'undefined' && decodePassphrase(location.hash.substring(1)),
+    [],
+  );
 
-  const worker =
-    typeof window !== 'undefined' &&
-    e2eePassphrase &&
-    new Worker(new URL('livekit-client/e2ee-worker', import.meta.url));
+  const worker = React.useMemo(
+    () =>
+      typeof window !== 'undefined' && e2eePassphrase
+        ? new Worker(new URL('livekit-client/e2ee-worker', import.meta.url))
+        : null,
+    [e2eePassphrase],
+  );
+
   const e2eeEnabled = !!(e2eePassphrase && worker);
-  const keyProvider = new ExternalE2EEKeyProvider();
+  const keyProvider = React.useMemo(() => new ExternalE2EEKeyProvider(), []);
   const [e2eeSetupComplete, setE2eeSetupComplete] = React.useState(false);
 
   const roomOptions = React.useMemo((): RoomOptions => {
@@ -134,9 +143,9 @@ function VideoConferenceComponent(props: {
           }
         : undefined,
     };
-  }, [props.userChoices, props.options.hq, props.options.codec]);
+  }, [e2eeEnabled, keyProvider, worker, props.userChoices, props.options.hq, props.options.codec]);
 
-  const room = React.useMemo(() => new Room(roomOptions), []);
+  const room = React.useMemo(() => new Room(roomOptions), [roomOptions]);
 
   React.useEffect(() => {
     if (e2eeEnabled) {
@@ -158,12 +167,25 @@ function VideoConferenceComponent(props: {
     } else {
       setE2eeSetupComplete(true);
     }
-  }, [e2eeEnabled, room, e2eePassphrase]);
+  }, [e2eeEnabled, room, e2eePassphrase, keyProvider]);
 
   const connectOptions = React.useMemo((): RoomConnectOptions => {
     return {
       autoSubscribe: true,
     };
+  }, []);
+
+  const router = useRouter();
+  const handleOnLeave = React.useCallback(() => router.push('/'), [router]);
+  const handleError = React.useCallback((error: Error) => {
+    console.error(error);
+    alert(`Encountered an unexpected error, check the console logs for details: ${error.message}`);
+  }, []);
+  const handleEncryptionError = React.useCallback((error: Error) => {
+    console.error(error);
+    alert(
+      `Encountered an unexpected encryption error, check the console logs for details: ${error.message}`,
+    );
   }, []);
 
   React.useEffect(() => {
@@ -196,20 +218,16 @@ function VideoConferenceComponent(props: {
       room.off(RoomEvent.EncryptionError, handleEncryptionError);
       room.off(RoomEvent.MediaDevicesError, handleError);
     };
-  }, [e2eeSetupComplete, room, props.connectionDetails, props.userChoices]);
-
-  const router = useRouter();
-  const handleOnLeave = React.useCallback(() => router.push('/'), [router]);
-  const handleError = React.useCallback((error: Error) => {
-    console.error(error);
-    alert(`Encountered an unexpected error, check the console logs for details: ${error.message}`);
-  }, []);
-  const handleEncryptionError = React.useCallback((error: Error) => {
-    console.error(error);
-    alert(
-      `Encountered an unexpected encryption error, check the console logs for details: ${error.message}`,
-    );
-  }, []);
+  }, [
+    e2eeSetupComplete,
+    room,
+    props.connectionDetails,
+    props.userChoices,
+    connectOptions,
+    handleOnLeave,
+    handleEncryptionError,
+    handleError,
+  ]);
 
   return (
     <div className="lk-room-container">
