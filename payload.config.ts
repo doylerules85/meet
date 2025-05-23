@@ -30,9 +30,7 @@ export default buildConfig({
   // Mongoose is shown as an example, but you can also use Postgres
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.PGCONNECTIONSTRING || '',
-      ssl: true,
-      max: 20,
+      connectionString: process.env.DATABASE_URL || '',
     },
   }),
   // If you want to resize images, crop, set focal point, etc.
