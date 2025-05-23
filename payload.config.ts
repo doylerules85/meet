@@ -31,6 +31,8 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.PGCONNECTIONSTRING || '',
+      ssl: true,
+      max: 20,
     },
   }),
   // If you want to resize images, crop, set focal point, etc.
