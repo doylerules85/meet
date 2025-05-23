@@ -2,6 +2,7 @@
   "name": "livekit-meet",
   "version": "0.2.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -17,12 +18,26 @@
     "@livekit/components-styles": "1.1.6",
     "@livekit/krisp-noise-filter": "0.3.0",
     "@livekit/track-processors": "^0.5.4",
-    "livekit-client": "2.13.3",
+    "@payloadcms/db-postgres": "^3.38.0",
+    "@payloadcms/next": "^3.38.0",
+    "@payloadcms/richtext-lexical": "^3.38.0",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tailwindcss/postcss": "^4.1.7",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "graphql": "^16.11.0",
+    "livekit-client": "2.13.0",
     "livekit-server-sdk": "2.13.0",
+    "lucide-react": "^0.511.0",
     "next": "15.2.4",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "payload": "^3.38.0",
+    "postcss": "^8.5.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
+    "sharp": "^0.34.2",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss": "^4.1.7",
     "tinykeys": "^3.0.0"
   },
   "devDependencies": {
@@ -32,10 +47,11 @@
     "eslint": "9.27.0",
     "eslint-config-next": "15.3.2",
     "source-map-loader": "^5.0.0",
+    "tw-animate-css": "^1.3.0",
     "typescript": "5.8.3"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "pnpm@9.15.9"
+  "packageManager": "npm@10.8.2"
 }

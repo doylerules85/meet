@@ -3,7 +3,10 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useState } from 'react';
 import { encodePassphrase, generateRoomId, randomString } from '@/lib/client-utils';
-import styles from '../styles/Home.module.css';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Input } from '@/components/ui/input';
 
 function Tabs(props: React.PropsWithChildren<{}>) {
   const searchParams = useSearchParams();
@@ -18,7 +21,7 @@ function Tabs(props: React.PropsWithChildren<{}>) {
   let tabs = React.Children.map(props.children, (child, index) => {
     return (
       <button
-        className="lk-button"
+        className="px-4 py-2 rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground"
         onClick={() => {
           if (onTabSelected) {
             onTabSelected(index);
@@ -33,8 +36,8 @@ function Tabs(props: React.PropsWithChildren<{}>) {
   });
 
   return (
-    <div className={styles.tabContainer}>
-      <div className={styles.tabSelect}>{tabs}</div>
+    <div className="w-full max-w-4xl mx-auto p-4">
+      <div className="flex gap-2 mb-4">{tabs}</div>
       {/* @ts-ignore */}
       {props.children[tabIndex]}
     </div>
@@ -53,11 +56,11 @@ function DemoMeetingTab(props: { label: string }) {
     }
   };
   return (
-    <div className={styles.tabContent}>
+    <div className="tab-content">
       <p style={{ margin: 0 }}>Try LiveKit Meet for free with our live demo project.</p>
-      <button style={{ marginTop: '1rem' }} className="lk-button" onClick={startMeeting}>
+      <Button style={{ marginTop: '1rem' }} onClick={startMeeting}>
         Start Meeting
-      </button>
+      </Button>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>
           <input
@@ -104,7 +107,7 @@ function CustomConnectionTab(props: { label: string }) {
     }
   };
   return (
-    <form className={styles.tabContent} onSubmit={onSubmit}>
+    <form className="tab-content" onSubmit={onSubmit}>
       <p style={{ marginTop: 0 }}>
         Connect LiveKit Meet with a custom server using LiveKit Cloud or LiveKit Server.
       </p>
@@ -163,38 +166,117 @@ function CustomConnectionTab(props: { label: string }) {
 export default function Page() {
   return (
     <>
-      <main className={styles.main} data-lk-theme="default">
-        <div className="header">
-          <img src="/images/livekit-meet-home.svg" alt="LiveKit Meet" width="360" height="45" />
-          <h2>
-            Open source video conferencing app built on{' '}
-            <a href="https://github.com/livekit/components-js?ref=meet" rel="noopener">
-              LiveKit&nbsp;Components
-            </a>
-            ,{' '}
-            <a href="https://livekit.io/cloud?ref=meet" rel="noopener">
-              LiveKit&nbsp;Cloud
-            </a>{' '}
-            and Next.js.
-          </h2>
+      <header className="fixed top-0 left-0 w-full z-20 bg-secondary shadow-md">
+        <nav className="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+          <Link
+            href="/"
+            className="text-foreground text-2xl font-bold hover:text-accent-foreground transition-colors"
+          >
+            Teach Together
+          </Link>
+          <ul className="flex flex-wrap gap-4 text-accent-foreground">
+            <li>
+              <Link href="/blog" className="hover:text-foreground transition-colors">
+                Blog
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="hover:text-foreground transition-colors">
+                Contact
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={`/rooms/${generateRoomId()}`}
+                className="hover:text-foreground transition-colors"
+              >
+                Room
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <main className="bg-foreground min-h-screen pt-20 overflow-x-hidden">
+        <div className="relative h-[70vh] w-full">
+          <img
+            className="absolute inset-0 w-full h-full object-cover"
+            src="/images/tt-header.avif"
+            alt="girl looking at the computer on video call"
+          />
+          <div className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center">
+            <div className="container mx-auto px-4 md:px-12">
+              <div className="flex flex-col gap-4 max-w-3xl">
+                <h1 className="text-background text-4xl md:text-6xl font-bold text-balance">
+                  Supporting you while you support your students.
+                </h1>
+                <p className="text-background text-lg md:text-xl text-balance">
+                  Connect, collaborate, and grow with other educators.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-        <Suspense fallback="Loading">
-          <Tabs>
-            <DemoMeetingTab label="Demo" />
-            <CustomConnectionTab label="Custom" />
-          </Tabs>
-        </Suspense>
+
+        <section className="w-full py-12 md:py-16 px-4 md:px-12 bg-secondary">
+          <div className="container mx-auto max-w-4xl">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Teach Together Mission
+            </h2>
+            <p className="text-accent-foreground text-base md:text-lg leading-relaxed">
+              At Teach Together, we believe in empowering educators through seamless collaboration.
+              Our mission is to create a supportive environment where teachers can connect, share
+              resources, and learn from each other, ultimately enhancing the educational experience
+              for students worldwide. Through our platform, we're building bridges between
+              classrooms and making quality education more accessible for all.
+            </p>
+          </div>
+        </section>
+
+        <section className="w-full py-12 md:py-16 px-4 md:px-12 bg-primary">
+          <div className="container mx-auto max-w-4xl flex flex-col items-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-background mb-4 text-center">
+              Stay Connected
+            </h2>
+            <p className="text-background text-base md:text-lg leading-relaxed text-center mb-6 max-w-2xl">
+              Sign up for our monthly newsletter to receive teaching tips, collaboration
+              opportunities, and updates on new features to enhance your teaching experience.
+            </p>
+            <form className="w-full max-w-md flex flex-col gap-4">
+              <div className="grid w-full items-center gap-1.5">
+                <Input
+                  type="email"
+                  placeholder="Your email address"
+                  className="bg-background"
+                  required
+                />
+              </div>
+              <Button type="submit" className="w-full" variant="secondary">
+                Subscribe to Newsletter
+              </Button>
+            </form>
+          </div>
+        </section>
       </main>
-      <footer data-lk-theme="default">
-        Hosted on{' '}
-        <a href="https://livekit.io/cloud?ref=meet" rel="noopener">
-          LiveKit Cloud
-        </a>
-        . Source code on{' '}
-        <a href="https://github.com/livekit/meet?ref=meet" rel="noopener">
-          GitHub
-        </a>
-        .
+      <footer className="bg-secondary py-6 text-center text-accent-foreground">
+        <div className="container mx-auto px-4">
+          Hosted on{' '}
+          <a
+            href="https://livekit.io/cloud?ref=meet"
+            className="text-primary hover:underline"
+            rel="noopener"
+          >
+            LiveKit Cloud
+          </a>
+          . Source code on{' '}
+          <a
+            href="https://github.com/livekit/meet?ref=meet"
+            className="text-primary hover:underline"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          .
+        </div>
       </footer>
     </>
   );
