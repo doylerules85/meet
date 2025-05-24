@@ -3,6 +3,7 @@ import config from '@payload-config';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { Post } from '../../../payload-types';
+import { revalidatePath, unstable_cache } from 'next/cache';
 
 type PageProps = {
   params: Promise<{
@@ -32,7 +33,9 @@ async function getPost(slug: string): Promise<Post | null> {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = await unstable_cache(getPost, ['post', slug], {
+    tags: ['post', slug],
+  })(slug);
 
   if (!post) {
     return {
@@ -54,9 +57,9 @@ export default async function BlogPost({ params }: PageProps) {
   }
 
   return (
-    <article className="container mx-auto px-4 py-8">
+    <article className="container mx-auto px-4 py-8 bg-primary">
       <h1 className="text-3xl font-bold mb-4">{post.title || 'Untitled Post'}</h1>
-      <div className="text-sm text-gray-500 mb-6">
+      <div className="text-sm text-gray-200 mb-6">
         Posted: {new Date(post.createdAt).toLocaleDateString()}
         {post.updatedAt !== post.createdAt &&
           ` (Updated: ${new Date(post.updatedAt).toLocaleDateString()})`}
