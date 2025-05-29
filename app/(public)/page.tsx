@@ -166,37 +166,7 @@ function CustomConnectionTab(props: { label: string }) {
 export default function Page() {
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-20 bg-secondary shadow-md">
-        <nav className="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
-          <Link
-            href="/"
-            className="text-foreground text-2xl font-bold hover:text-accent-foreground transition-colors"
-          >
-            Teach Teach
-          </Link>
-          <ul className="flex flex-wrap gap-4 text-accent-foreground">
-            <li>
-              <Link href="/blog" className="hover:text-foreground transition-colors">
-                Blog
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="hover:text-foreground transition-colors">
-                Contact
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={`/rooms/${generateRoomId()}`}
-                className="hover:text-foreground transition-colors"
-              >
-                Room
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      <main className="bg-foreground min-h-screen pt-20 overflow-x-hidden">
+      <main className="min-h-screen pt-14 overflow-x-hidden">
         <div className="relative h-[70vh] w-full">
           <Image
             className="absolute inset-0 w-full h-full object-cover"
@@ -214,6 +184,17 @@ export default function Page() {
                 <p className="text-background text-lg md:text-xl text-balance">
                   Connect, collaborate, and grow with other educators.
                 </p>
+                <div className="flex gap-4 mt-4">
+                  <Link href="/meeting/new" passHref>
+                    <Button
+                      variant="default"
+                      size="lg"
+                      className="bg-white text-black hover:bg-gray-200"
+                    >
+                      Schedule a Meeting
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

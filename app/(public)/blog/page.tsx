@@ -12,14 +12,14 @@ const getPosts = unstable_cache(
   },
   ['posts'],
   {
-    revalidate: 60,
+    revalidate: 30,
   },
 );
 
 const Blog = async () => {
   const data = await getPosts();
   return (
-    <section className="p-4 bg-accent min-h-screen">
+    <section className="px-4 min-h-screen">
       <h1 className="text-6xl text-foreground">Blog</h1>
       <div className="grid lg:grid-cols-3 gap-4 my-12">
         {data.docs.map((doc) => (

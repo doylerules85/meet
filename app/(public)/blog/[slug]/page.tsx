@@ -2,8 +2,8 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import type { Post } from '../../../payload-types';
-import { revalidatePath, unstable_cache } from 'next/cache';
+import type { Post } from '../../../../payload-types';
+import { unstable_cache } from 'next/cache';
 
 type PageProps = {
   params: Promise<{
