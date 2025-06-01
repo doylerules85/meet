@@ -35,6 +35,7 @@ import {
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { Card, CardContent } from './ui/card';
+import { Button } from './ui/button';
 
 const data = {
   user: {
@@ -62,18 +63,13 @@ const data = {
   navSecondary: [
     {
       title: 'Settings',
-      url: '#',
+      url: '/settings',
       icon: IconSettings,
     },
     {
       title: 'Get Help',
-      url: '#',
+      url: '/help',
       icon: IconHelp,
-    },
-    {
-      title: 'Search',
-      url: '#',
-      icon: IconSearch,
     },
   ],
 };
@@ -85,7 +81,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
-              <span className="text-base font-semibold">Teach Teach</span>
+              <span className="text-base font-roboto uppercase tracking-wider">Teach Teach</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -93,18 +89,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
-        <Card className="my-2 border-primary dark:border-primary">
+        <Card className="my-2 border-card-foreground">
           <CardContent className="p-3">
             <div className="flex flex-col gap-2 items-start">
-              <h3 className="text-primary text-xl">Upgrade to Premium</h3>
-              <p className="text-xs text-primary">
+              <h3 className="text-foreground text-xl uppercase tracking-wide">
+                Upgrade to Premium
+              </h3>
+              <p className="text-sm text-foreground">
                 Get access to premium resources and extended meeting time.
               </p>
-              <Link
-                href="/premium"
-                className="mt-1 bg-secondary text-foreground rounded-lg p-2 text-sm"
-              >
-                Become a Premium Member
+              <Link href="/premium" className="mt-1" passHref>
+                <Button variant="default" size="lg" className="bg-light-green">
+                  Upgrade Today
+                </Button>
               </Link>
             </div>
           </CardContent>

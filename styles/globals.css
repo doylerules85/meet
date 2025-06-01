@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://use.typekit.net/bcg5gcl.css');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -5,24 +7,28 @@
 
 * {
   box-sizing: border-box;
+  font-family: 'ballinger', sans-serif;
 }
 
 html {
   color-scheme: dark;
   background-color: #111;
+  height: 100%;
 }
 
 html,
 body {
-  overflow: hidden;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   margin: 0px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 .header {
@@ -46,31 +52,6 @@ body {
   color: rgba(255, 255, 255, 0.6);
 }
 
-footer {
-  width: 100%;
-  padding: 1.5rem 2rem;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.6);
-  background-color: var(--lk-bg);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-footer a,
-h2 a {
-  color: #ff6352;
-  text-decoration-color: #a33529;
-  text-underline-offset: 0.125em;
-}
-
-footer a:hover,
-h2 a {
-  text-decoration-color: #ff6352;
-}
-
-h2 a {
-  text-decoration: none;
-}
-
 :root {
   --background: #f9f9f9;
   --foreground: #202020;
@@ -78,24 +59,24 @@ h2 a {
   --card-foreground: #202020;
   --popover: #fcfcfc;
   --popover-foreground: #202020;
-  --primary: #644a40;
-  --primary-foreground: #ffffff;
-  --secondary: #ffdfb5;
-  --secondary-foreground: #582d1d;
-  --muted: #efefef;
-  --muted-foreground: #646464;
-  --accent: #e8e8e8;
+  --primary: #fffc9e;
+  --primary-foreground: #1c1c1c;
+  --secondary: #fffc9e;
+  --secondary-foreground: #1c1c1c;
+  --muted: #eff1f1;
+  --muted-foreground: #3b3b3b;
+  --accent: #e6e6e6;
   --accent-foreground: #202020;
   --destructive: #e54d2e;
   --destructive-foreground: #ffffff;
   --border: #d8d8d8;
   --input: #d8d8d8;
-  --ring: #644a40;
-  --chart-1: #644a40;
-  --chart-2: #ffdfb5;
+  --ring: #201e18;
+  --chart-1: #ff9ebb;
+  --chart-2: #9effa5;
   --chart-3: #e8e8e8;
-  --chart-4: #ffe6c4;
-  --chart-5: #66493e;
+  --chart-4: #9eefff;
+  --chart-5: #ffcd9e;
   --sidebar: #fbfbfb;
   --sidebar-foreground: #252525;
   --sidebar-primary: #343434;
@@ -105,7 +86,7 @@ h2 a {
   --sidebar-border: #ebebeb;
   --sidebar-ring: #b5b5b5;
   --font-sans:
-    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Roboto', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
   --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
@@ -130,10 +111,10 @@ h2 a {
   --card-foreground: #eeeeee;
   --popover: #191919;
   --popover-foreground: #eeeeee;
-  --primary: #ffe0c2;
+  --primary: #fffc9e;
   --primary-foreground: #081a1b;
-  --secondary: #393028;
-  --secondary-foreground: #ffe0c2;
+  --secondary: #2b2b2b;
+  --secondary-foreground: #fffc9e;
   --muted: #222222;
   --muted-foreground: #b4b4b4;
   --accent: #2a2a2a;
@@ -142,15 +123,15 @@ h2 a {
   --destructive-foreground: #ffffff;
   --border: #201e18;
   --input: #484848;
-  --ring: #ffe0c2;
-  --chart-1: #ffe0c2;
-  --chart-2: #393028;
-  --chart-3: #2a2a2a;
-  --chart-4: #42382e;
-  --chart-5: #ffe0c1;
+  --ring: #201e18;
+  --chart-1: #ff9ebb;
+  --chart-2: #9effa5;
+  --chart-3: #f3b8ff;
+  --chart-4: #9eefff;
+  --chart-5: #ffcd9e;
   --sidebar: #18181b;
   --sidebar-foreground: #f4f4f5;
-  --sidebar-primary: #1d4ed8;
+  --sidebar-primary: #fffc9e;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #27272a;
   --sidebar-accent-foreground: #f4f4f5;
@@ -162,8 +143,11 @@ h2 a {
     'Segoe UI Symbol', 'Noto Color Emoji';
   --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
   --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
-    monospace;
+    'Roboto', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  --font-roboto:
+    'Roboto', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
   --radius: 0.5rem;
   --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
   --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
@@ -200,6 +184,12 @@ h2 a {
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-light-yellow: var(--primary);
+  --color-light-pink: var(--chart-1);
+  --color-light-green: var(--chart-2);
+  --color-light-purple: var(--chart-3);
+  --color-light-blue: var(--chart-4);
+  --color-light-orange: var(--chart-5);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);

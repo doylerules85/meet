@@ -10,16 +10,12 @@ export async function POST(request: NextRequest) {
   const supabase = await createClient();
   const { data: user } = await supabase.auth.getUser();
 
-  const timestamp = dayjs(body.date + ' ' + body.time)
-    .utc()
-    .format();
-
   const { data, error } = await supabase
     .from('meetings')
     .insert({
       topic: body.topic,
       notes: body.notes,
-      scheduled_date: timestamp,
+      scheduled_date: body.date,
       created_by: user.user?.id,
       timezone_meeting: Intl.DateTimeFormat().resolvedOptions().timeZone,
     })

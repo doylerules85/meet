@@ -55,6 +55,7 @@ const STEPS = {
   TOPIC: 1,
   NOTES: 2,
   REVIEW: 3,
+  COMPLETED: 4,
 };
 
 export function MeetingFormWizard() {
@@ -91,7 +92,7 @@ export function MeetingFormWizard() {
 
     // Navigate to success page or dashboard
     // For now we'll just show the review step
-    setStep(STEPS.REVIEW);
+    setStep(STEPS.COMPLETED);
   };
 
   return (
@@ -111,6 +112,7 @@ export function MeetingFormWizard() {
                 {step === STEPS.TOPIC && "What's the Meeting About?"}
                 {step === STEPS.NOTES && 'Add Meeting Notes'}
                 {step === STEPS.REVIEW && 'Review Meeting Details'}
+                {step === STEPS.COMPLETED && 'Meeting Scheduled'}
               </CardTitle>
               <CardDescription>
                 {step === STEPS.DATE_TIME && 'Select a date and time for your meeting'}
@@ -218,6 +220,15 @@ export function MeetingFormWizard() {
                         </span>
                       </div>
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {step === STEPS.COMPLETED && (
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="mb-2 font-medium">Meeting Scheduled</h3>
+                    <p>Your meeting has been successfully scheduled!</p>
                   </div>
                 </div>
               )}

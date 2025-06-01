@@ -5,30 +5,31 @@ import '@livekit/components-styles/prefabs';
 import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
 import { Toaster } from 'react-hot-toast';
+import { Navigation } from '@/components/navigation';
 
 export const metadata: Metadata = {
   title: {
-    default: 'LiveKit Meet | Conference app build with LiveKit open source',
+    default: 'Teach Teach | Teacher collaboration platform',
     template: '%s',
   },
   description:
-    'LiveKit is an open source WebRTC project that gives you everything needed to build scalable and real-time audio and/or video experiences in your applications.',
+    'Teach Teach is a teacher collaboration platform that allows teachers to connect with each other and share resources.',
   twitter: {
-    creator: '@livekitted',
-    site: '@livekitted',
+    creator: '@teachteach',
+    site: '@teachteach',
     card: 'summary_large_image',
   },
   openGraph: {
-    url: 'https://meet.livekit.io',
+    url: 'https://teachteach.org',
     images: [
       {
-        url: 'https://meet.livekit.io/images/livekit-meet-open-graph.png',
+        url: 'https://teachteach.org/images/teachteach-open-graph.png',
         width: 2000,
         height: 1000,
         type: 'image/png',
       },
     ],
-    siteName: 'LiveKit Meet',
+    siteName: 'Teach Teach',
   },
   icons: {
     icon: {
@@ -41,7 +42,6 @@ export const metadata: Metadata = {
         url: '/images/livekit-apple-touch.png',
         sizes: '180x180',
       },
-      { rel: 'mask-icon', url: '/images/livekit-safari-pinned-tab.svg', color: '#070707' },
     ],
   },
 };
@@ -53,39 +53,32 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body data-lk-theme="default" className="min-h-screen">
-        <header className="fixed top-0 left-0 w-full z-20 bg-secondary shadow-md">
-          <nav className="mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            <Link
-              href="/"
-              className="text-foreground text-2xl font-bold hover:text-accent-foreground transition-colors"
-            >
-              Teach Teach
-            </Link>
-            <ul className="flex flex-wrap gap-4 text-accent-foreground">
-              <li>
-                <Link href="/blog" className="hover:text-foreground transition-colors">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-foreground transition-colors">
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/login`}
-                  className="bg-primary text-white px-4 py-2 rounded-md hover:bg-accent-foreground transition-colors"
-                >
-                  Login
-                </Link>
-              </li>
-            </ul>
-          </nav>
+      <body className="flex flex-col min-h-screen relative">
+        <header className="sticky top-0 w-full z-20 bg-background">
+          <Navigation />
         </header>
         <Toaster />
-        {children}
+        <div className="flex-1 w-full">{children}</div>
+        <footer className="w-full z-10 bg-neutral-900 py-4 mt-auto">
+          <div className="mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex gap-4">
+              <Link href="/terms" className="text-sm text-accent hover:text-primary">
+                Terms
+              </Link>
+              <Link href="/privacy" className="text-sm text-accent hover:text-primary">
+                Privacy
+              </Link>
+              <Link href="/contact" className="text-sm text-accent hover:text-primary">
+                Contact
+              </Link>
+            </div>
+            <div className="">
+              <p className="text-sm text-accent">
+                Teach Teach. All rights reserved. &copy; {new Date().getFullYear()}
+              </p>
+            </div>
+          </div>
+        </footer>
       </body>
     </html>
   );

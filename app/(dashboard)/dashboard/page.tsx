@@ -16,10 +16,14 @@ import {
 export default function Page() {
   return (
     <>
-      <section>
-        <h2>Welcome to TeachTeach</h2>
-        <p>TeachTeach is a platform that helps you teach your students.</p>
-      </section>
+      <div className="flex flex-col gap-4">
+        <h2 className="text-4xl font-roboto uppercase tracking-wider text-foreground">
+          Welcome to Teach Teach.
+        </h2>
+        <p className="text-lg font-roboto font-light text-muted-foreground">
+          Begin your first meeting, or get inspiration from our amazing resources.
+        </p>
+      </div>
       {/* Recent Meetings Section */}
       <section>
         <h2 className="text-2xl font-semibold mb-4">Recent Meetings</h2>
@@ -35,7 +39,9 @@ export default function Page() {
             </CardContent>
             <CardFooter className="flex justify-between">
               <p className="text-sm text-muted-foreground">30 minutes</p>
-              <button className="text-primary text-sm font-medium">Join</button>
+              <button className="bg-primary text-primary-foreground px-4 py-2 text-sm rounded-md">
+                Join
+              </button>
             </CardFooter>
           </Card>
 
@@ -50,7 +56,9 @@ export default function Page() {
             </CardContent>
             <CardFooter className="flex justify-between">
               <p className="text-sm text-muted-foreground">45 minutes</p>
-              <button className="text-primary text-sm font-medium">Replay</button>
+              <button className="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm">
+                Replay
+              </button>
             </CardFooter>
           </Card>
 
@@ -65,7 +73,9 @@ export default function Page() {
             </CardContent>
             <CardFooter className="flex justify-between">
               <p className="text-sm text-muted-foreground">60 minutes</p>
-              <button className="text-primary text-sm font-medium">Replay</button>
+              <button className="bg-primary text-primary-foreground px-4 py-2 text-sm rounded-md">
+                Replay
+              </button>
             </CardFooter>
           </Card>
 
@@ -80,7 +90,9 @@ export default function Page() {
             </CardContent>
             <CardFooter className="flex justify-between">
               <p className="text-sm text-muted-foreground">90 minutes</p>
-              <button className="text-primary text-sm font-medium">Replay</button>
+              <button className="bg-primary text-primary-foreground px-4 py-2 text-sm rounded-md">
+                Replay
+              </button>
             </CardFooter>
           </Card>
         </div>
@@ -101,7 +113,9 @@ export default function Page() {
               </p>
             </CardContent>
             <CardFooter>
-              <button className="text-primary text-sm font-medium">View</button>
+              <button className="bg-primary text-primary-foreground px-4 py-2 text-sm rounded-md">
+                View
+              </button>
             </CardFooter>
           </Card>
 
@@ -116,7 +130,9 @@ export default function Page() {
               </p>
             </CardContent>
             <CardFooter>
-              <button className="text-primary text-sm font-medium">Browse</button>
+              <button className="bg-primary text-primary-foreground px-4 py-2 text-sm rounded-md">
+                Browse
+              </button>
             </CardFooter>
           </Card>
 
@@ -131,7 +147,9 @@ export default function Page() {
               </p>
             </CardContent>
             <CardFooter>
-              <button className="text-primary text-sm font-medium">Watch</button>
+              <button className="bg-primary text-primary-foreground px-4 py-2 text-sm rounded-md">
+                Watch
+              </button>
             </CardFooter>
           </Card>
 
@@ -146,7 +164,9 @@ export default function Page() {
               </p>
             </CardContent>
             <CardFooter>
-              <button className="text-primary text-sm font-medium">Connect</button>
+              <button className="bg-primary text-primary-foreground px-4 py-2 text-sm rounded-md">
+                Connect
+              </button>
             </CardFooter>
           </Card>
 
@@ -161,7 +181,9 @@ export default function Page() {
               </p>
             </CardContent>
             <CardFooter>
-              <button className="text-primary text-sm font-medium">Explore</button>
+              <button className="bg-primary text-primary-foreground px-4 py-2 text-sm rounded-md">
+                Explore
+              </button>
             </CardFooter>
           </Card>
         </div>

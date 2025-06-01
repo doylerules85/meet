@@ -70,7 +70,10 @@ export function PageClientImpl(props: {
   return (
     <main data-lk-theme="default" style={{ height: '100%' }}>
       {connectionDetails === undefined || preJoinChoices === undefined ? (
-        <div style={{ display: 'grid', placeItems: 'center', height: '100%' }}>
+        <div
+          className="bg-background"
+          style={{ display: 'grid', placeItems: 'center', height: '100%' }}
+        >
           <PreJoin
             defaults={preJoinDefaults}
             onSubmit={handlePreJoinSubmit}

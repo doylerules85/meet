@@ -1,5 +1,5 @@
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  return <main className="min-h-screen pt-20">{children}</main>;
+  return <main className="min-h-screen">{children}</main>;
 };
 
 export default Layout;
