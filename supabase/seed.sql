@@ -186,8 +186,6 @@ SELECT pg_catalog.setval('"auth"."refresh_tokens_id_seq"', 4, true);
 -- Name: hooks_id_seq; Type: SEQUENCE SET; Schema: supabase_functions; Owner: supabase_functions_admin
 --
 
-SELECT pg_catalog.setval('"supabase_functions"."hooks_id_seq"', 1, false);
-
 
 --
 -- PostgreSQL database dump complete
