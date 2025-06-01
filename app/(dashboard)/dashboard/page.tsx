@@ -12,13 +12,17 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { createClient } from '@/lib/supabase/server';
 
-export default function Page() {
+export default async function Page() {
+  const supabase = await createClient();
+  const { data: user } = await supabase.auth.getUser();
+
   return (
     <>
       <div className="flex flex-col gap-4">
         <h2 className="text-4xl font-roboto uppercase tracking-wider text-foreground">
-          Welcome to Teach Teach.
+          Welcome back, {user?.user?.email}
         </h2>
         <p className="text-lg font-roboto font-light text-muted-foreground">
           Begin your first meeting, or get inspiration from our amazing resources.

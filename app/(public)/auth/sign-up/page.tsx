@@ -7,8 +7,7 @@ export default function Page() {
       <Image
         src="/images/supplies.jpg"
         alt="Teach Teach Logo"
-        width={1920}
-        height={1080}
+        fill={true}
         className="object-cover absolute inset-0 z-0"
       />
       <div className="w-full max-w-sm z-10">

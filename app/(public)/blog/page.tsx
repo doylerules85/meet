@@ -25,7 +25,7 @@ const Blog = async () => {
         <div>
           <h1 className="text-6xl text-foreground uppercase">Blog</h1>
           <p className="text-foreground">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+            The latest news, tips, and tricks for teachers. By teachers.
           </p>
         </div>
       </header>

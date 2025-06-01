@@ -42,7 +42,7 @@ export function SiteHeader() {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4 bg-accent-foreground"
         />
-        <h1 className="text-base font-medium text-foreground">{title}</h1>
+        <h1 className="text-base font-medium text-foreground uppercase tracking-wider">{title}</h1>
       </div>
     </header>
   );

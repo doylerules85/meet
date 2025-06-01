@@ -53,7 +53,7 @@ export function Navigation() {
         <li>
           <Link
             href={`/auth/sign-up`}
-            className="bg-light-green text-primary-foreground px-4 py-2 rounded-md hover:bg-transparent transition-colors uppercase tracking-wide border border-foreground"
+            className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-transparent transition-colors uppercase tracking-wide border border-foreground"
           >
             Sign Up
           </Link>

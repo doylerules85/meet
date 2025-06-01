@@ -59,7 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <Toaster />
         <div className="flex-1 w-full">{children}</div>
-        <footer className="w-full z-10 bg-neutral-900 py-4 mt-auto">
+        <footer className="w-full z-10 bg-neutral-900 py-2 mt-auto">
           <div className="mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex gap-4">
               <Link href="/terms" className="text-sm text-accent hover:text-primary">
