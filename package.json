@@ -26,7 +26,7 @@
     "@livekit/krisp-noise-filter": "0.3.0",
     "@livekit/track-processors": "^0.5.4",
     "@opennextjs/cloudflare": "^1.0.4",
-    "@payloadcms/db-postgres": "^3.38.0",
+    "@payloadcms/db-postgres": "^3.40.0",
     "@payloadcms/next": "^3.40.0",
     "@payloadcms/richtext-lexical": "^3.40.0",
     "@radix-ui/react-avatar": "^1.1.10",

@@ -403,7 +403,7 @@ export default function Page() {
 
       <section className="w-full py-12 md:py-16 px-4 md:px-12 bg-primary-foreground">
         <div className="container mx-auto max-w-4xl flex flex-col items-center">
-          <h2 className="text-3xl md:text-4xl text-accent mb-4 text-center uppercase tracking-wider">
+          <h2 className="text-2xl md:text-4xl text-accent mb-4 text-center uppercase tracking-wider">
             Stay Connected
           </h2>
           <p className="text-accent text-base md:text-lg leading-relaxed text-center mb-6 max-w-2xl">
@@ -411,7 +411,7 @@ export default function Page() {
             opportunities, and updates on new features to enhance your teaching experience.
           </p>
           <form className="w-full max-w-md flex flex-col gap-4">
-            <div className="flex w-full items-center gap-1.5">
+            <div className="flex flex-col lg:flex-row w-full justify-center items-center gap-1.5">
               <Input
                 type="email"
                 placeholder="Your email address"

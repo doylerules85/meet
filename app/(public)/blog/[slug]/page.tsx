@@ -4,6 +4,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { Post } from '../../../../payload-types';
 import { unstable_cache } from 'next/cache';
+import { RichText } from '@/components/payload/rich-text';
+import { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 
 type PageProps = {
   params: Promise<{
@@ -51,7 +53,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function BlogPost({ params }: PageProps) {
   const { slug } = await params;
   const post = await getPost(slug);
-
+  console.log(post);
   if (!post) {
     notFound();
   }
@@ -64,6 +66,7 @@ export default async function BlogPost({ params }: PageProps) {
         {post.updatedAt !== post.createdAt &&
           ` (Updated: ${new Date(post.updatedAt).toLocaleDateString()})`}
       </div>
+      <RichText data={post.content as SerializedEditorState} />
     </article>
   );
 }
