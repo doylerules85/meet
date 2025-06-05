@@ -2,6 +2,7 @@ import sharp from "sharp";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { buildConfig } from "payload";
+import { s3Storage } from "@payloadcms/storage-s3";
 
 export default buildConfig({
   // If you'd like to use Rich Text, pass your editor here
@@ -21,14 +22,43 @@ export default buildConfig({
           type: "text",
         },
         {
+          name: "hero image",
+          type: "upload",
+          relationTo: "media",
+        },
+        {
           name: "content",
           type: "richText",
           editor: lexicalEditor(),
         },
       ],
     },
+    {
+      slug: "media",
+      upload: true,
+      fields: [],
+    },
   ],
 
+  plugins: [
+    s3Storage({
+      collections: {
+        media: {
+          prefix: "media",
+        },
+      },
+      bucket: process.env.S3_BUCKET!,
+      config: {
+        forcePathStyle: true, // Important for using Supabase
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+        },
+        region: process.env.S3_REGION!,
+        endpoint: process.env.S3_ENDPOINT,
+      },
+    }),
+  ],
   // Your Payload secret - should be a complex and secure string, unguessable
   secret: process.env.PAYLOAD_SECRET || "",
   // Whichever Database Adapter you're using should go here
