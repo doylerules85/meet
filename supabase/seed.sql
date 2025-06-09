@@ -201,16 +201,9 @@ INSERT INTO "public"."payload_preferences_rels" ("id", "order", "parent_id", "pa
 -- Data for Name: buckets; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
 --
 
-INSERT INTO "storage"."buckets" ("id", "name", "owner", "created_at", "updated_at", "public", "avif_autodetection", "file_size_limit", "allowed_mime_types", "owner_id") VALUES
-	('supabase-payload', 'supabase-payload', NULL, '2025-06-03 05:21:39.18996+00', '2025-06-03 05:21:39.18996+00', true, false, NULL, NULL, NULL);
-
 
 --
 -- Data for Name: objects; Type: TABLE DATA; Schema: storage; Owner: supabase_storage_admin
---
-
-INSERT INTO "storage"."objects" ("id", "bucket_id", "name", "owner", "created_at", "updated_at", "last_accessed_at", "metadata", "version", "owner_id", "user_metadata") VALUES
-	('4bec2c59-6de4-41d9-b37d-d655717b8cd7', 'supabase-payload', 'media/blog.jpg', NULL, '2025-06-03 15:19:00.0764+00', '2025-06-03 15:19:00.0764+00', '2025-06-03 15:19:00.0764+00', '{"eTag": "\"1417f71a9e16e29e00d0f1cd7ac650ca\"", "size": 430608, "mimetype": "image/jpeg", "cacheControl": "no-cache", "lastModified": "2025-06-03T15:19:00.021Z", "contentLength": 430608, "httpStatusCode": 200}', 'd6673696-b07d-4538-905a-e4898dffe60d', NULL, '{}');
 
 
 --

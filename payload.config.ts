@@ -22,7 +22,7 @@ export default buildConfig({
           type: "text",
         },
         {
-          name: "hero image",
+          name: "featuredImage",
           type: "upload",
           relationTo: "media",
         },

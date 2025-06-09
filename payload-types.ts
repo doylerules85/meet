@@ -123,7 +123,7 @@ export interface Post {
   id: number;
   slug?: string | null;
   title?: string | null;
-  'hero image'?: (number | null) | Media;
+  featuredImage?: (number | null) | Media;
   content?: {
     root: {
       type: string;
@@ -246,7 +246,7 @@ export interface PayloadMigration {
 export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   title?: T;
-  'hero image'?: T;
+  featuredImage?: T;
   content?: T;
   updatedAt?: T;
   createdAt?: T;
