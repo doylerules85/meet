@@ -6,6 +6,8 @@ import type { Post } from '../../../../payload-types';
 import { RichText } from '@/components/payload/rich-text';
 import { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 import Image from 'next/image';
+import RelatedPosts from '@/components/blog/related-posts';
+import * as motion from 'motion/react-client';
 
 type PageProps = {
   params: Promise<{
@@ -64,8 +66,8 @@ export default async function BlogPost({ params }: PageProps) {
 
   return (
     <section className="px-4 py-8">
-      <header className="mb-8 container mx-auto grid grid-cols-2 gap-4 items-center">
-        <div className="col-span-1">
+      <header className="mb-8 container mx-auto flex lg:flex-row flex-col gap-4 items-center">
+        <div className="flex-1">
           <h1 className="text-3xl md:text-5xl leading-tight text-foreground text-balance">
             {post.title}
           </h1>
@@ -73,24 +75,31 @@ export default async function BlogPost({ params }: PageProps) {
             Posted: {new Date(post.createdAt).toLocaleDateString()}
           </p>
         </div>
-        <div className="col-span-1 relative aspect-video">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.15, type: 'spring', stiffness: 100 }}
+          className="relative aspect-video rounded-md overflow-hidden order-first lg:order-last h-auto flex-1 border border-foreground"
+        >
           {post.featuredImage &&
             typeof post.featuredImage === 'object' &&
             post.featuredImage.url && (
               <Image
                 src={post.featuredImage.url}
                 alt={post.title || 'Blog post'}
-                fill
-                className="object-cover"
+                width={800}
+                height={600}
+                className="object-cover aspect-video h-auto w-full"
               />
             )}
-        </div>
+        </motion.div>
       </header>
-      <article className="container-fluid mx-auto border-t border-border pb-8">
+      <div className="container-fluid mx-auto border-t border-border pb-8">
         <div className="max-w-2xl mx-auto py-12">
           {post.content && <RichText data={post.content as SerializedEditorState} />}
         </div>
-      </article>
+      </div>
+      <RelatedPosts currentPost={post} />
     </section>
   );
 }

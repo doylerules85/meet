@@ -251,12 +251,19 @@ body {
       line-height: 1.5;
     }
     ul {
+      font-size: clamp(0.875rem, 2vw, 1.125rem);
       list-style-type: disc;
       padding-left: 1.5rem;
     }
     ol {
+      font-size: clamp(0.875rem, 2vw, 1.125rem);
       list-style-type: decimal;
       padding-left: 1.5rem;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
     }
   }
 }
