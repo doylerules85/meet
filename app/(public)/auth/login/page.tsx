@@ -8,6 +8,7 @@ export default function Page() {
         src="/images/login-bg.jpg"
         alt="Teach Teach Logo"
         fill={true}
+        priority={true}
         className="object-cover absolute inset-0 z-0"
       />
       <div className="w-full max-w-sm z-10">
