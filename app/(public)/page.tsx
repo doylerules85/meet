@@ -338,7 +338,7 @@ export default function Page() {
                 <Image
                   src="/images/videocall-three.png"
                   alt="girl looking at the computer on video call"
-                  className="rounded-lg object-cover"
+                  className="rounded-lg object-cover aspect-video"
                   sizes="(min-width: 808px) 50vw, 100vw"
                   fill={true}
                 />
@@ -347,7 +347,7 @@ export default function Page() {
                 <Image
                   src="/images/videocall-five.jpeg"
                   alt="girl looking at the computer on video call"
-                  className="rounded-lg object-cover"
+                  className="rounded-lg object-cover aspect-video"
                   sizes="(min-width: 808px) 50vw, 100vw"
                   fill={true}
                 />
