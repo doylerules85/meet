@@ -6,10 +6,10 @@ import { encodePassphrase, generateRoomId, randomString } from '@/lib/client-uti
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Input } from '@/components/ui/input';
 import { motion, useAnimate } from 'framer-motion';
 import List from '@/components/home/List';
 import { Check, CheckCircle, CheckCircle2 } from 'lucide-react';
+import Newsletter from '@/components/newsletter-form';
 
 function Tabs(props: React.PropsWithChildren<{}>) {
   const searchParams = useSearchParams();
@@ -333,12 +333,12 @@ export default function Page() {
                 </span>
               </span>
             </div>
-            <div className="grid grid-cols-[1fr_1fr] grid-rows-[200px] items-center justify-center gap-4 h-auto py-8 max-w-xl mx-auto">
+            <div className="lg:grid grid-cols-[1fr_1fr] grid-rows-[180px] items-center justify-center gap-4 h-auto py-8 max-w-xl mx-auto">
               <div className="relative size-full">
                 <Image
                   src="/images/videocall-three.png"
                   alt="girl looking at the computer on video call"
-                  className="rounded-lg object-cover aspect-video"
+                  className="rounded-lg object-cover aspect-video h-auto"
                   sizes="(min-width: 808px) 50vw, 100vw"
                   fill={true}
                 />
@@ -410,19 +410,7 @@ export default function Page() {
             Sign up for our monthly newsletter to receive teaching tips, collaboration
             opportunities, and updates on new features to enhance your teaching experience.
           </p>
-          <form className="w-full max-w-md flex flex-col gap-4">
-            <div className="flex flex-col lg:flex-row w-full justify-center items-center gap-1.5">
-              <Input
-                type="email"
-                placeholder="Your email address"
-                className="bg-background flex-1 w-full"
-                required
-              />
-              <Button type="submit" variant="default" size="lg" className="hover:bg-background">
-                Subscribe
-              </Button>
-            </div>
-          </form>
+          <Newsletter />
         </div>
       </section>
     </main>

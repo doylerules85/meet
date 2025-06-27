@@ -1,54 +1,6 @@
 create sequence "public"."media_id_seq";
 
-revoke delete on table "public"."meetings" from "anon";
 
-revoke insert on table "public"."meetings" from "anon";
-
-revoke references on table "public"."meetings" from "anon";
-
-revoke select on table "public"."meetings" from "anon";
-
-revoke trigger on table "public"."meetings" from "anon";
-
-revoke truncate on table "public"."meetings" from "anon";
-
-revoke update on table "public"."meetings" from "anon";
-
-revoke delete on table "public"."meetings" from "authenticated";
-
-revoke insert on table "public"."meetings" from "authenticated";
-
-revoke references on table "public"."meetings" from "authenticated";
-
-revoke select on table "public"."meetings" from "authenticated";
-
-revoke trigger on table "public"."meetings" from "authenticated";
-
-revoke truncate on table "public"."meetings" from "authenticated";
-
-revoke update on table "public"."meetings" from "authenticated";
-
-revoke delete on table "public"."meetings" from "service_role";
-
-revoke insert on table "public"."meetings" from "service_role";
-
-revoke references on table "public"."meetings" from "service_role";
-
-revoke select on table "public"."meetings" from "service_role";
-
-revoke trigger on table "public"."meetings" from "service_role";
-
-revoke truncate on table "public"."meetings" from "service_role";
-
-revoke update on table "public"."meetings" from "service_role";
-
-alter table "public"."meetings" drop constraint "fk_created_by";
-
-alter table "public"."meetings" drop constraint "meetings_pkey";
-
-drop index if exists "public"."meetings_pkey";
-
-drop table "public"."meetings";
 
 create table "public"."media" (
     "id" integer not null default nextval('media_id_seq'::regclass),
