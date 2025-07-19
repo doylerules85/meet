@@ -32,7 +32,15 @@ export function SiteHeader() {
 
   // Extract the title from the pathname
   const pathSegment = pathname.split('/').filter(Boolean).pop();
-  const title = pathSegment && navMain.find((item) => item.url === pathname)?.title;
+  let title = pathSegment && navMain.find((item) => pathname.includes(item.url))?.title;
+
+  const refinedTitles = {
+    edit: 'Edit Meeting',
+  };
+
+  if (pathname.includes('edit') && refinedTitles['edit']) {
+    title = refinedTitles['edit'];
+  }
 
   return (
     <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">

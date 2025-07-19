@@ -68,6 +68,8 @@ export interface Config {
   blocks: {};
   collections: {
     posts: Post;
+    emails: Email;
+    availability: Availability;
     media: Media;
     users: User;
     'payload-locked-documents': PayloadLockedDocument;
@@ -77,6 +79,8 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     posts: PostsSelect<false> | PostsSelect<true>;
+    emails: EmailsSelect<false> | EmailsSelect<true>;
+    availability: AvailabilitySelect<false> | AvailabilitySelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -163,6 +167,97 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "emails".
+ */
+export interface Email {
+  id: number;
+  subject?: string | null;
+  preview?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "availability".
+ */
+export interface Availability {
+  id: number;
+  /**
+   * A descriptive title for this availability entry (e.g., 'Vacation Week', 'Morning Meetings')
+   */
+  title: string;
+  /**
+   * Choose the type of availability entry
+   */
+  availabilityType: 'single_day' | 'date_range' | 'recurring_weekly';
+  /**
+   * Start date for this availability period
+   */
+  startDate: string;
+  /**
+   * End date for date range availability
+   */
+  endDate?: string | null;
+  /**
+   * Select which days of the week this applies to
+   */
+  daysOfWeek?: ('monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday')[] | null;
+  /**
+   * Define specific time blocks for this availability
+   */
+  timeBlocks?:
+    | {
+        /**
+         * Start time (e.g., '09:00', '14:30')
+         */
+        startTime: string;
+        /**
+         * End time (e.g., '17:00', '18:30')
+         */
+        endTime: string;
+        /**
+         * Optional description for this time block
+         */
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Check if this represents times when you are NOT available
+   */
+  isUnavailable?: boolean | null;
+  /**
+   * Uncheck to temporarily disable this availability entry
+   */
+  isActive?: boolean | null;
+  /**
+   * Additional notes or comments about this availability
+   */
+  notes?: string | null;
+  /**
+   * Timezone for this availability (e.g., 'America/New_York', 'UTC')
+   */
+  timezone?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -188,6 +283,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'posts';
         value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'emails';
+        value: number | Email;
+      } | null)
+    | ({
+        relationTo: 'availability';
+        value: number | Availability;
       } | null)
     | ({
         relationTo: 'media';
@@ -248,6 +351,42 @@ export interface PostsSelect<T extends boolean = true> {
   title?: T;
   featuredImage?: T;
   content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "emails_select".
+ */
+export interface EmailsSelect<T extends boolean = true> {
+  subject?: T;
+  preview?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "availability_select".
+ */
+export interface AvailabilitySelect<T extends boolean = true> {
+  title?: T;
+  availabilityType?: T;
+  startDate?: T;
+  endDate?: T;
+  daysOfWeek?: T;
+  timeBlocks?:
+    | T
+    | {
+        startTime?: T;
+        endTime?: T;
+        description?: T;
+        id?: T;
+      };
+  isUnavailable?: T;
+  isActive?: T;
+  notes?: T;
+  timezone?: T;
   updatedAt?: T;
   createdAt?: T;
 }

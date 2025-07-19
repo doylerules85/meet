@@ -44,14 +44,6 @@ export function Navigation() {
         </li>
         <li>
           <Link
-            href="/auth/login"
-            className="hover:underline transition-colors uppercase tracking-wide"
-          >
-            Login
-          </Link>
-        </li>
-        <li>
-          <Link
             href={`/auth/sign-up`}
             className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-transparent transition-colors uppercase tracking-wide border border-foreground"
           >

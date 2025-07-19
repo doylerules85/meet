@@ -12,6 +12,8 @@ import {
   LocalUserChoices,
   PreJoin,
   RoomContext,
+  Toast,
+  useTranscriptions,
   VideoConference,
 } from '@livekit/components-react';
 import {
@@ -68,7 +70,8 @@ export function PageClientImpl(props: {
   const handlePreJoinError = React.useCallback((e: any) => console.error(e), []);
 
   return (
-    <main data-lk-theme="default" style={{ height: '100%' }}>
+    <main data-lk-theme="custom" style={{ height: '100%' }}>
+      {/* Alternative: Use custom theme - <main data-lk-theme="custom" style={{ height: '100%' }}> */}
       {connectionDetails === undefined || preJoinChoices === undefined ? (
         <div
           className="bg-background"
@@ -242,7 +245,25 @@ function VideoConferenceComponent(props: {
         />
         <DebugMode />
         <RecordingIndicator />
+        <TranscriptionsDisplay />
+        <Toast>30:00</Toast>
       </RoomContext.Provider>
+    </div>
+  );
+}
+
+function TranscriptionsDisplay() {
+  const transcriptions = useTranscriptions();
+  console.log('transcriptions', transcriptions);
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold">Transcriptions</h2>
+      {transcriptions.map((t: any, i: number) => (
+        <div key={i}>
+          <p>{t.text}</p>
+        </div>
+      ))}
     </div>
   );
 }

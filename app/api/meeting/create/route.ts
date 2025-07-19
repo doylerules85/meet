@@ -1,9 +1,9 @@
-import { createClient } from '@/lib/supabase/server';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+import { createClient } from "@/lib/supabase/server";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   const { data: user } = await supabase.auth.getUser();
 
   const { data, error } = await supabase
-    .from('meetings')
+    .from("meetings")
     .insert({
       topic: body.topic,
       notes: body.notes,

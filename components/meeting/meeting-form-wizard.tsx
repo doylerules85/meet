@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Card,
@@ -22,6 +22,26 @@ import {
 } from '@/components/ui/select';
 import { format } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
+import { DateRange, Matcher } from 'react-day-picker';
+
+// Types for availability data
+interface AvailabilityEntry {
+  id: string;
+  title: string;
+  availabilityType: 'single_day' | 'date_range' | 'recurring_weekly';
+  startDate: string;
+  endDate?: string;
+  daysOfWeek?: string[];
+  timeBlocks: {
+    startTime: string;
+    endTime: string;
+    description?: string;
+  }[];
+  isUnavailable: boolean;
+  isActive: boolean;
+  notes?: string;
+  timezone: string;
+}
 
 // Create a textarea component
 const Textarea = ({ ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => {
@@ -64,8 +84,108 @@ export function MeetingFormWizard() {
   const [time, setTime] = useState<string | undefined>(undefined);
   const [topic, setTopic] = useState('');
   const [notes, setNotes] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [availabilityData, setAvailabilityData] = useState<AvailabilityEntry[]>([]);
+  const [isLoadingAvailability, setIsLoadingAvailability] = useState(true);
 
   const timeSlots = generateTimeSlots();
+
+  // Fetch availability data on component mount
+  useEffect(() => {
+    const fetchAvailability = async () => {
+      try {
+        setIsLoadingAvailability(true);
+        const response = await fetch('/api/availability/get');
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setAvailabilityData(data.availability || []);
+        } else {
+          console.error('Failed to fetch availability data');
+        }
+      } catch (error) {
+        console.error('Error fetching availability:', error);
+      } finally {
+        setIsLoadingAvailability(false);
+      }
+    };
+
+    fetchAvailability();
+  }, []);
+
+  // Convert availability data to DayPicker matcher types
+  const getDisabledDates = (): Matcher[] => {
+    const matchers: Matcher[] = [];
+
+    // Always disable past dates
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    matchers.push({ before: today });
+
+    // Convert availability entries to matchers
+    for (const entry of availabilityData) {
+      console.log(entry);
+      if (!entry.isActive || !entry.isUnavailable) continue;
+
+      // Check if this entry covers the entire day
+      // Empty timeBlocks array means full day unavailable
+      const hasFullDayCoverage =
+        entry.timeBlocks.length === 0 ||
+        entry.timeBlocks.some((block) => {
+          const startMinutes =
+            parseInt(block.startTime.split(':')[0]) * 60 + parseInt(block.startTime.split(':')[1]);
+          const endMinutes =
+            parseInt(block.endTime.split(':')[0]) * 60 + parseInt(block.endTime.split(':')[1]);
+          // Consider it full day if it covers 8+ hours or starts very early and ends very late
+          return endMinutes - startMinutes >= 480 || (startMinutes <= 540 && endMinutes >= 1020); // 9am to 5pm
+        });
+
+      console.log(hasFullDayCoverage);
+      if (!hasFullDayCoverage) continue;
+
+      switch (entry.availabilityType) {
+        case 'single_day':
+          // Add specific date
+          matchers.push(new Date(entry.startDate));
+          break;
+        case 'date_range':
+          if (entry.endDate) {
+            // Add date range
+            const dateRange = {
+              from: new Date(entry.startDate),
+              to: new Date(entry.endDate),
+            } as DateRange;
+            console.log('Adding date range:', dateRange);
+            matchers.push(dateRange);
+          }
+          break;
+        case 'recurring_weekly':
+          // Add recurring days of the week
+          if (entry.daysOfWeek) {
+            const dayMapping: { [key: string]: number } = {
+              sunday: 0,
+              monday: 1,
+              tuesday: 2,
+              wednesday: 3,
+              thursday: 4,
+              friday: 5,
+              saturday: 6,
+            };
+
+            const dayNumbers = entry.daysOfWeek
+              .map((day) => dayMapping[day.toLowerCase()])
+              .filter((dayNum) => dayNum !== undefined);
+
+            if (dayNumbers.length > 0) {
+              matchers.push({ dayOfWeek: dayNumbers });
+            }
+          }
+          break;
+      }
+    }
+    console.log(matchers);
+    return matchers;
+  };
 
   const handleNext = () => {
     setStep((prevStep) => prevStep + 1);
@@ -76,27 +196,46 @@ export function MeetingFormWizard() {
   };
 
   const handleSubmit = async () => {
-    // In a real app, you would submit the meeting data to your backend here
-    console.log({
-      date,
-      time,
-      topic,
-      notes,
-    });
-    const response = await fetch('/api/meeting/create', {
-      method: 'POST',
-      body: JSON.stringify({ date, time, topic, notes }),
-    });
-    const data = await response.json();
-    console.log(data);
+    if (isSubmitting) return; // Prevent double submissions
 
-    // Navigate to success page or dashboard
-    // For now we'll just show the review step
-    setStep(STEPS.COMPLETED);
+    setIsSubmitting(true);
+
+    try {
+      console.log({
+        date,
+        time,
+        topic,
+        notes,
+      });
+
+      const response = await fetch('/api/meeting/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ date, time, topic, notes }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create meeting');
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      // Navigate to success page or dashboard
+      // For now we'll just show the review step
+      setStep(STEPS.COMPLETED);
+    } catch (error) {
+      console.error('Error creating meeting:', error);
+      // You might want to show an error message to the user here
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="mx-auto w-full max-w-3xl">
+    <div className="mx-auto w-full max-w-xl">
       <AnimatePresence mode="wait">
         <motion.div
           key={step}
@@ -107,7 +246,7 @@ export function MeetingFormWizard() {
         >
           <Card className="w-full">
             <CardHeader>
-              <CardTitle>
+              <CardTitle className="text-2xl">
                 {step === STEPS.DATE_TIME && 'Schedule Your Meeting'}
                 {step === STEPS.TOPIC && "What's the Meeting About?"}
                 {step === STEPS.NOTES && 'Add Meeting Notes'}
@@ -125,19 +264,29 @@ export function MeetingFormWizard() {
             <CardContent>
               {step === STEPS.DATE_TIME && (
                 <div className="space-y-6">
-                  <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-                    <div className="w-full sm:w-1/2">
+                  <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-6 lg:space-y-0 lg:items-start">
+                    <div className="flex-shrink-0">
                       <Label className="mb-2 block">Select Date</Label>
                       <Calendar
                         mode="single"
                         selected={date}
                         onSelect={setDate}
-                        className="rounded-md border w-full"
-                        disabled={(date) => date < new Date()}
+                        className="rounded-md border"
+                        disabled={getDisabledDates()}
                       />
+                      {isLoadingAvailability && (
+                        <p className="text-sm text-muted-foreground mt-2 text-balance">
+                          Loading availability...
+                        </p>
+                      )}
+                      {!isLoadingAvailability && availabilityData.length > 0 && (
+                        <p className="text-xs text-muted-foreground mt-2 w-[30ch] text-balance">
+                          Some dates are disabled due to existing unavailability.
+                        </p>
+                      )}
                     </div>
 
-                    <div className="w-full sm:w-1/2">
+                    <div className="min-w-0">
                       <Label className="mb-2 block">Select Time</Label>
                       <Select onValueChange={setTime} value={time}>
                         <SelectTrigger className="w-full">
@@ -234,10 +383,12 @@ export function MeetingFormWizard() {
               )}
             </CardContent>
 
-            <CardFooter className="flex justify-between">
-              <Button variant="outline" onClick={handleBack} disabled={step === STEPS.DATE_TIME}>
-                Back
-              </Button>
+            <CardFooter className="flex w-full justify-end gap-2">
+              {step !== STEPS.DATE_TIME && (
+                <Button variant="outline" onClick={handleBack}>
+                  Back
+                </Button>
+              )}
 
               {step < STEPS.REVIEW ? (
                 <Button
@@ -250,7 +401,9 @@ export function MeetingFormWizard() {
                   Continue
                 </Button>
               ) : (
-                <Button onClick={handleSubmit}>Schedule Meeting</Button>
+                <Button onClick={handleSubmit} disabled={isSubmitting}>
+                  {isSubmitting ? 'Scheduling...' : 'Schedule Meeting'}
+                </Button>
               )}
             </CardFooter>
           </Card>

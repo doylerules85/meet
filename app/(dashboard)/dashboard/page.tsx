@@ -20,11 +20,11 @@ export default async function Page() {
 
   return (
     <>
-      <div className="flex flex-col gap-4">
-        <h2 className="text-4xl font-roboto uppercase tracking-wider text-foreground">
+      <div className="flex flex-col gap-2">
+        <h2 className="text-3xl font-roboto uppercase tracking-wider text-foreground">
           Welcome back, {user?.user?.email}
         </h2>
-        <p className="text-lg font-roboto font-light text-muted-foreground">
+        <p className="font-roboto font-light text-muted-foreground">
           Begin your first meeting, or get inspiration from our amazing resources.
         </p>
       </div>
