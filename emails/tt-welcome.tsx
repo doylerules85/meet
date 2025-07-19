@@ -53,11 +53,9 @@ const text = {
 
 const img = {
   borderRadius: '6px',
-  overflow: 'hidden',
   maxHeight: '200px',
   width: '100%',
   height: 'auto',
-  objectFit: 'cover',
   marginBottom: '30px',
 };
 
