@@ -1,7 +1,7 @@
 import EditForm from '@/components/meeting/edit-form';
 import { createClient } from '@/lib/supabase/server';
 
-const EditMeetingPage = async ({ params }: { params: { id: string } }) => {
+const EditMeetingPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const supabase = await createClient();
   const { data: meeting, error } = await supabase

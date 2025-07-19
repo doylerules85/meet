@@ -171,7 +171,7 @@ export default buildConfig({
                 description: "End time (e.g., '17:00', '18:30')",
                 placeholder: "17:00",
               },
-              validate: (value: string) => {
+              validate: (value: string | null | undefined) => {
                 if (!value) return "End time is required";
                 const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
                 if (!timeRegex.test(value)) {
@@ -230,8 +230,9 @@ export default buildConfig({
           ({ data }) => {
             // Ensure end date is after start date for date ranges
             if (
-              data.availabilityType === "date_range" && data.startDate &&
-              data.endDate
+              data?.availabilityType === "date_range" &&
+              data?.startDate &&
+              data?.endDate
             ) {
               const start = new Date(data.startDate);
               const end = new Date(data.endDate);
@@ -241,8 +242,8 @@ export default buildConfig({
             }
 
             // Validate time blocks
-            if (data.timeBlocks && data.timeBlocks.length > 0) {
-              data.timeBlocks.forEach((block: any, index: number) => {
+            if (data?.timeBlocks && data?.timeBlocks.length > 0) {
+              data?.timeBlocks.forEach((block: any, index: number) => {
                 if (block.startTime && block.endTime) {
                   const [startHour, startMin] = block.startTime.split(":").map(
                     Number,
