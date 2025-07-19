@@ -1,4 +1,5 @@
 import { Payload } from "payload";
+import { Availability } from "../payload-types";
 
 export interface AvailabilityEntry {
     id: string;
@@ -175,7 +176,11 @@ export const getAvailabilityForDateRange = async (
         limit: 1000,
     });
 
-    return docs as AvailabilityEntry[];
+    // Convert Availability[] to AvailabilityEntry[] by mapping the id from number to string
+    return docs.map((doc: Availability) => ({
+        ...doc,
+        id: doc.id.toString(),
+    })) as AvailabilityEntry[];
 };
 
 /**
